@@ -65,8 +65,8 @@ Il punto cruciale del confronto emerge chiaramente nel **Sample 997**:
 ├── requirements.txt            # Dipendenze dell'ambiente
 └── README.md                   # Documentazione del progetto
 
-# ==============================================================================
-# 🚀 SETUP & UTILIZZO
+---
+## 🚀 SETUP & UTILIZZO
 # ==============================================================================
 
 # 1. Clona la repository
