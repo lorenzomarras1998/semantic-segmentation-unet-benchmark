@@ -66,11 +66,12 @@ Il punto cruciale del confronto emerge chiaramente nel **Sample 997**:
 └── README.md                   # Documentazione del progetto
 
 ---
-## 🚀 SETUP & UTILIZZO
-# ==============================================================================
 
+## 🚀 SETUP & UTILIZZO
+
+```bash
 # 1. Clona la repository
-git clone https://github.com/lorenzomarras1998/semantic-segmentation-unet-benchmark.git
+git clone [https://github.com/lorenzomarras1998/semantic-segmentation-unet-benchmark.git](https://github.com/lorenzomarras1998/semantic-segmentation-unet-benchmark.git)
 cd semantic-segmentation-unet-benchmark
 
 # 2. Installa le dipendenze
@@ -86,9 +87,7 @@ python train_tl.py    # U-Net + ResNet34 (Transfer Learning)
 # 5. Genera il confronto visivo
 python predict.py
 
-# ==============================================================================
-# NOTA HARDWARE & ACCELERAZIONE:
-# Training e benchmark sono stati condotti su GPU AMD Radeon RX 9070 XT con
-# accelerazione DirectML. La pipeline include un fallback automatico (CUDA/CPU)
-# per garantire la piena riproducibilità su qualsiasi architettura.
-# ==============================================================================
+💻 Note Hardware & Accelerazione
+Il training e il benchmark sono stati condotti su GPU AMD Radeon RX 9070 XT con accelerazione DirectML.
+
+La pipeline include un fallback automatico CUDA/CPU per garantire la piena riproducibilità su diverse architetture hardware.
