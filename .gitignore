@@ -1,0 +1,21 @@
+# Bytecode e cache di Python
+__pycache__/
+*.pyc
+
+# Ambiente virtuale (fondamentale: contiene migliaia di file di libreria)
+venv/
+venv_amd/
+.env
+
+# Dati grezzi (pesanti: chi scarica il repo usa download_data.py)
+data/
+
+# Pesi dei modelli (pesano decine di MB e bloccherebbero il push)
+outputs/*.pth
+*.pth
+
+# Cartelle temporanee o di sistema
+.vscode/
+3D Objects/
+AppData/
+.DS_Store
