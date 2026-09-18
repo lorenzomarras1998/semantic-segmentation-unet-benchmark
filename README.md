@@ -64,7 +64,7 @@ Il punto cruciale del confronto emerge chiaramente nel **Sample 997**:
 ├── predict.py                  # Inferenza e generazione della griglia comparativa
 ├── requirements.txt            # Dipendenze dell'ambiente
 └── README.md                   # Documentazione del progetto
-
+```
 ---
 
 ## 🚀 SETUP & UTILIZZO
@@ -86,8 +86,9 @@ python train_tl.py    # U-Net + ResNet34 (Transfer Learning)
 
 # 5. Genera il confronto visivo
 python predict.py
+```
+---
 
-💻 Note Hardware & Accelerazione
+ ## 💻 Note Hardware & Accelerazione
 Il training e il benchmark sono stati condotti su GPU AMD Radeon RX 9070 XT con accelerazione DirectML.
-
 La pipeline include un fallback automatico CUDA/CPU per garantire la piena riproducibilità su diverse architetture hardware.
