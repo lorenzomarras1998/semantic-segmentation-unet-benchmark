@@ -11,10 +11,26 @@ import numpy as np
 import matplotlib.pyplot as plt
 from PIL import Image
 import torchvision.transforms.functional as TF
-import torch_directml
 import segmentation_models_pytorch as smp
 
 from model import UNet
+
+# Rilevamento automatico dell'acceleratore hardware:
+# 1. DirectML (utilizzato nello sviluppo locale su GPU AMD Radeon)
+# 2. CUDA (per GPU Nvidia standard)
+# 3. CPU (fallback universale per massima portabilità ed esecuzione cross-platform)
+try:
+    import torch_directml
+    device = torch_directml.device()
+    device_name = torch_directml.device_name(0)
+except Exception:
+    if torch.cuda.is_available():
+        device = torch.device("cuda")
+        device_name = torch.cuda.get_device_name(0)
+    else:
+        device = torch.device("cpu")
+        device_name = "CPU"
+
 
 def pulisci_maschera(mask_binaria, kernel_size=5):
     """
@@ -44,9 +60,9 @@ def pulisci_maschera(mask_binaria, kernel_size=5):
 
     return (maschera_finale > 127).astype(np.float32)
 
+
 def predict_benchmark(num_samples=4, img_size=(256, 256)):
-    device = torch_directml.device()
-    print(f"Dispositivo in uso per inferenza: {torch_directml.device_name(0)}")
+    print(f"Dispositivo in uso per inferenza: {device_name}")
 
     path_custom = "outputs/unet_pesi.pth"
     path_tl = "outputs/unet_resnet34_pesi.pth"
@@ -133,6 +149,7 @@ def predict_benchmark(num_samples=4, img_size=(256, 256)):
     plt.savefig(output_plot, dpi=160)
     plt.close()
     print(f"Confronto salvato con successo in: {output_plot}")
+
 
 if __name__ == "__main__":
     predict_benchmark(num_samples=4)

@@ -1,6 +1,6 @@
 # Semantic Segmentation Benchmark: Custom U-Net (From Scratch) vs. Transfer Learning
 
-Questo repository presenta uno studio comparativo e ingegneristico sulla **segmentazione semantica binaria** (animale target vs. sfondo) applicata a un dataset di animali, prevalentemente felini (~2000 immagini). 
+Questo repository presenta uno studio comparativo e ingegneristico sulla **segmentazione semantica binaria** (animale target vs. sfondo) applicata a un dataset di animali, prevalentemente felini (~2000 immagini con split 80/20 train-validation). 
 
 L'obiettivo è analizzare empiricamente il divario prestazionale, la velocità di convergenza e la capacità di disambiguazione semantica tra una rete implementata e addestrata da zero e un approccio industriale basato su Transfer Learning.
 
@@ -30,8 +30,7 @@ Il confronto sulle predizioni del set di validazione mette a confronto l'immagin
 
 ### 1. Custom U-Net (Scratch Baseline)
 * **Architettura a blocchi**: Realizzata a basso livello in PyTorch (`model.py`), composta da blocchi simmetrici `DoubleConv` (Convoluzione 3x3, Batch Normalization, ReLU), pooling (`MaxPool2d`) e transposed convolution (`ConvTranspose2d`) con skip connections concatenate.
-* **Loss Composita Personalizzata**: Per ottimizzare sia la classificazione puntuale dei pixel sia l'overlap complessivo della regione, è stata adottata una loss pesata:
-  $$\mathcal{L}_{\text{total}} = 0.6 \cdot \mathcal{L}_{\text{BCE}} + 0.4 \cdot \mathcal{L}_{\text{Soft Dice}}$$
+* **Loss Composita Personalizzata**: Per ottimizzare sia la classificazione puntuale dei pixel sia l'overlap complessivo della regione, è stata adottata una loss pesata: **0.6 · BCE + 0.4 · Soft Dice Loss**.
 * **Pipeline di Post-Processing Morfologico**:
   * Estrazione della componente connessa a massima area per eliminare cluster di rumore isolati sullo sfondo.
   * Algoritmo di **Flood-Fill** bidirezionale per richiudere fori e lacune interne alla maschera.
@@ -65,3 +64,31 @@ Il punto cruciale del confronto emerge chiaramente nel **Sample 997**:
 ├── predict.py                  # Inferenza e generazione della griglia comparativa
 ├── requirements.txt            # Dipendenze dell'ambiente
 └── README.md                   # Documentazione del progetto
+
+# ==============================================================================
+# 🚀 SETUP & UTILIZZO
+# ==============================================================================
+
+# 1. Clona la repository
+git clone https://github.com/lorenzomarras1998/semantic-segmentation-unet-benchmark.git
+cd semantic-segmentation-unet-benchmark
+
+# 2. Installa le dipendenze
+pip install -r requirements.txt
+
+# 3. Scarica e prepara il dataset
+python download_data.py
+
+# 4. Addestramento dei modelli
+python train.py       # Custom U-Net (scratch)
+python train_tl.py    # U-Net + ResNet34 (Transfer Learning)
+
+# 5. Genera il confronto visivo
+python predict.py
+
+# ==============================================================================
+# NOTA HARDWARE & ACCELERAZIONE:
+# Training e benchmark sono stati condotti su GPU AMD Radeon RX 9070 XT con
+# accelerazione DirectML. La pipeline include un fallback automatico (CUDA/CPU)
+# per garantire la piena riproducibilità su qualsiasi architettura.
+# ==============================================================================
